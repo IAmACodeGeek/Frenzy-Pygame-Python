@@ -709,12 +709,6 @@ class Enemy(pygame.sprite.Sprite):
 			self.y_speed = 10
 
 		for tile in game_world.obstacles:
-			#check for x collision
-			if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
-				dx = 0
-				# Reverse direction if enemy hits wall
-				self.direction *= -1
-				self.move_counter = 0
 			#check for y collision
 			if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
 				#check for top collision
@@ -725,6 +719,13 @@ class Enemy(pygame.sprite.Sprite):
 					self.y_speed = 0
 					self.in_air = False
 					dy = tile[1].top - self.rect.bottom
+			#check for x collision
+			if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height//2):
+				dx = 0
+				# Reverse direction if enemy hits wall
+				self.direction *= -1
+				self.move_counter = 0
+				break
 		# Update the player positions
 		self.rect.x += dx
 		self.rect.y += dy
